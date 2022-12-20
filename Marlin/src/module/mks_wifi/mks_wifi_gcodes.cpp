@@ -91,6 +91,27 @@ void mks_m994(void){
 
 
 void mks_m27(void){
+  if (parser.seen_test('C')) {
+    SERIAL_ECHOPGM("Current file: ");
+    card.printSelectedFilename();
+    return;
+  }
+  #if ENABLED(AUTO_REPORT_SD_STATUS)
+    if (parser.seenval('S')) {
+      card.auto_reporter.set_interval(parser.value_byte());
+      return;
+    }
+  #endif
+  if (CardReader::isPrinting() || CardReader::isPaused()) {
+      char buffer[30];
+      sprintf((char *)buffer, "M27 %d/100\r\n",CardReader::percentDone() );
+      mks_wifi_out_add((uint8_t *)buffer,strlen(buffer));
+      SERIAL_EOL();
+  }
+  else
+    SERIAL_ECHOLNPGM(STR_SD_NOT_PRINTING);
+
+
 
   // if (CardReader::isPrinting()) {
   //   SERIAL_ECHOPGM(STR_SD_PRINTING_BYTE);

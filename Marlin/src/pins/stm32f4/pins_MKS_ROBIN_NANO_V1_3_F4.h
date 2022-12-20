@@ -41,6 +41,7 @@
 #endif
 
 #define LED_PIN                             PB1
+#define CASE_LIGHT_PIN                      PC15
 
 #include "../stm32f1/pins_MKS_ROBIN_NANO_common.h"
 

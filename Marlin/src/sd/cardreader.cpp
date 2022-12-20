@@ -439,7 +439,7 @@ void CardReader::ls(const uint8_t lsflags) {
       selectByName(diveDir, segment);
       #endif
 
-      // Print /LongNamePart to serial output
+      // Print /LongNamePart to serial output or the short name if not available
       #if ENABLED(MKS_WIFI)
       if(port.index != MKS_WIFI_SERIAL_NUM){
       SERIAL_CHAR('/');
@@ -447,7 +447,7 @@ void CardReader::ls(const uint8_t lsflags) {
       #else
       SERIAL_CHAR('/');
       #endif
-      SERIAL_ECHO(longFilename[0] ? longFilename : "???");
+      SERIAL_ECHO(longFilename[0] ? longFilename : filename);
 
       // If the filename was printed then that's it
       if (!flag.filenameIsDir) break;
